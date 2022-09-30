@@ -14,8 +14,7 @@ let score = 20;
 let highscore;
 
 //variable for make random number between 1 to 20
-const secretNumber = Math.trunc(Math.random() * 20 + 1);
-console.log(secretNumber);
+let secretNumber = Math.trunc(Math.random() * 20 + 1);
 
 // ==========================Check LocalStorage Data===============================================
 //if there highscore item in localstorage get it
@@ -39,8 +38,11 @@ checkButton.addEventListener("click", function () {
 
   // if guess input is empty
   if (!guess) displayMessage("⛔⛔ No Number");
+  // if guess input number greater than 20 and smaller than 1 display wrong message
+  else if (guess > 20 || guess < 1)
+    displayMessage("Enter number between 1 and 20");
   //if guess === secret number
-  if (guess == secretNumber) {
+  else if (guess == secretNumber) {
     displayMessage("🎉 Correct Number");
     numberSquare.textContent = secretNumber;
     document.body.style.backgroundColor = "#60b347";
@@ -69,4 +71,28 @@ checkButton.addEventListener("click", function () {
       numberSquare.textContent = "😑";
     }
   }
+});
+// ================================Again Button===================================================
+againButton.addEventListener("click", function () {
+  //regenerate number
+  secretNumber = Math.trunc(Math.random() * 20 + 1);
+
+  // reset init value for score
+  score = 20;
+  scoreSpan.textContent = score;
+
+  //reset main color for bg
+  document.body.style.backgroundColor = "#222";
+
+  //remove number or emo from square
+  numberSquare.textContent = "?";
+
+  //enter starter message
+  displayMessage("Start guessing...");
+
+  //make guess input empty
+  document.querySelector(".guess").value = "";
+
+  //remove disabled attr from guess input
+  document.querySelector(".guess").removeAttribute("disabled");
 });
